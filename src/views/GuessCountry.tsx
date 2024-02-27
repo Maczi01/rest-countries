@@ -19,15 +19,8 @@ export const GuessCountries = () => {
     const [countryName, setCountryName] = useState('');
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [showFeedback, setShowFeedback] = useState(false);
-
-    useEffect(() => {
-        if (data) {
-            setCountryName(data.name.common.toLowerCase());
-            setInput('');
-            setFeedbackMessage('');
-            setShowFeedback(false);
-        }
-    }, [data]);
+    const finished =
+        input.length !== 0 && countryName.length !== 0 && input.length === countryName.length;
 
     const handleInputChange = (e: { target: { value: string } }) => {
         const value = e.target.value.toLowerCase();
@@ -43,7 +36,7 @@ export const GuessCountries = () => {
             setInput(input);
         }
     };
-    console.log({ countryName });
+
     const handleShowNextLetter = () => {
         const nextLetter = countryName[input.length];
         setInput(input + nextLetter);
@@ -55,11 +48,17 @@ export const GuessCountries = () => {
         setCountryName('');
     };
 
+    useEffect(() => {
+        if (data) {
+            setCountryName(data.name.common.toLowerCase());
+            setInput('');
+            setFeedbackMessage('');
+            setShowFeedback(false);
+        }
+    }, [data]);
+
     if (isFetching) return 'Loading...';
     if (error) return 'An error has occurred: ' + error.message;
-
-    const finished =
-        input.length !== 0 && countryName.length !== 0 && input.length === countryName.length;
 
     return (
         <>

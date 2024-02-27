@@ -1,5 +1,4 @@
-import { Filter } from '../types/Filter';
-import {ChangeEvent, ComponentProps} from 'react';
+import { ChangeEvent, ComponentProps } from 'react';
 
 type DropdownProps = {
     options: { value: string; label: string }[];
@@ -19,10 +18,6 @@ export const Dropdown = (props: DropdownProps) => {
                     {label}
                 </option>
             ))}
-            {/*<option value="currency">Currency</option>*/}
-            {/*<option value="lang">Language</option>*/}
-            {/*<option value="capital">Capital</option>*/}
-            {/*<option value="country">Country</option>*/}
         </select>
     );
 };

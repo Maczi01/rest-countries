@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { getCountries } from '../api/countries';
 import { useDebounce } from '../hooks/useDebounce';
@@ -17,9 +17,14 @@ export const ExploreCountries = () => {
     const [sort, setSort] = useState<Sort>('alphabetical');
     const debouncedInput = useDebounce(input, 800);
     const { isPending, error, data } = useQuery({
-        queryKey: ['repoData', filter, debouncedInput],
+        queryKey: ['countries', filter, debouncedInput],
         queryFn: () => getCountries(filter, debouncedInput),
+        enabled: true,
     });
+
+    useEffect(() => {
+        setInput('');
+    }, [filter]);
 
     const onChangeInputText = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
 
@@ -31,9 +36,19 @@ export const ExploreCountries = () => {
 
     const sortedData = sortData(data, sort);
 
-    if (isPending) return 'Loading...';
-
-    if (error) return 'An error has occurred: ' + error.message;
+    const renderContent = () => {
+        if (isPending) return 'Loading...';
+        if (error) return 'An error has occurred: ' + error.message;
+        else {
+            return (
+                <div className="flex flex-row flex-wrap justify-center">
+                    {sortedData?.map((country: Country) => (
+                        <CountryCard key={country.cca3} country={country} />
+                    ))}
+                </div>
+            );
+        }
+    };
 
     return (
         <>
@@ -49,11 +64,7 @@ export const ExploreCountries = () => {
                 <Dropdown value={filter} options={filterOptions} onChange={onChangeFilterOption} />
                 <Dropdown value={sort} options={sortOptions} onChange={onChangeSortOption} />
             </div>
-            <div className="flex flex-row flex-wrap justify-center">
-                {sortedData?.map((country: Country) => (
-                    <CountryCard key={country.cca3} country={country} />
-                ))}
-            </div>
+            {renderContent()}
         </>
     );
 };

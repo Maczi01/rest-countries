@@ -1,8 +1,9 @@
 export const filterOptions = [
+    { value: '', label: '' },
     { value: 'currency', label: 'Currency' },
     { value: 'lang', label: 'Language' },
     { value: 'capital', label: 'Capital' },
-    { value: 'country', label: 'Country' },
+    { value: 'name', label: 'Country' },
 ];
 export const sortOptions = [
     { value: 'alphabetical', label: 'Alphabetical' },

@@ -24,7 +24,6 @@ export const Confetti = ({ show }: ConfettiProps) => {
             }
 
             let particleCount = 50 * (timeLeft / duration);
-            // Two confetti calls
             confetti(
                 Object.assign({}, defaults, {
                     particleCount,
@@ -39,7 +38,6 @@ export const Confetti = ({ show }: ConfettiProps) => {
             );
         }, 250);
 
-        // Cleanup on effect end
         return () => clearInterval(interval);
     }, [show]);
 

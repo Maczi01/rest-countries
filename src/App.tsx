@@ -7,10 +7,10 @@ import { Radio } from './components/Radio';
 import { Title } from './components/Title';
 
 function App() {
-    const [view, setView] = useState<'explore' | 'guess'>('guess');
+    const [view, setView] = useState<'explore' | 'guess'>('explore');
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newValue = e.target.value as 'explore' | 'guess'; // Type assertion here
+        const newValue = e.target.value as 'explore' | 'guess';
         setView(newValue);
     };
 

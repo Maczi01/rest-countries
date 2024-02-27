@@ -6,7 +6,7 @@ export const FlagCard = ({ data }: { data: Country }) => {
             <img
                 src={data?.flags.png}
                 alt={`Flag of ${data?.name.common}`}
-                className="w-48 h-32 object-cover"
+                className="w-56 h-32 object-fit"
             />
         </div>
     );

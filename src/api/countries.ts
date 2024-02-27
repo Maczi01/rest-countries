@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-export async function getCountries(filter?: string, fields?: string) {
-    let url;
-    if (!filter || (fields && fields?.length <= 2)) url = 'https://restcountries.com/v3.1/all';
-    else {
-        url = `https://restcountries.com/v3.1/${filter}/${fields}`;
+export async function getCountries(filter?: string, input?: string) {
+    let url = 'https://restcountries.com/v3.1/all';
+
+    if (input && input.length >= 3) {
+        if (!filter) {
+            url = `https://restcountries.com/v3.1/name/${input}`;
+        } else {
+            url = `https://restcountries.com/v3.1/${filter}/${input}`;
+        }
     }
     const response = await axios(url);
     if (response.status === 404) throw new Error('Countries not found');
