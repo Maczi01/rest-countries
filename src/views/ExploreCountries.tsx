@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { getCountries } from '../api/countries';
 import { useDebounce } from '../hooks/useDebounce';
@@ -14,18 +14,20 @@ import { filterOptions, sortOptions } from '../constants/constants';
 export const ExploreCountries = () => {
     const [input, setInput] = useState('');
     const [filter, setFilter] = useState<Filter>('');
-    const [sort, setSort] = useState<Sort>('alpha');
+    const [sort, setSort] = useState<Sort>('alphabetical');
     const debouncedInput = useDebounce(input, 800);
     const { isPending, error, data } = useQuery({
         queryKey: ['repoData', filter, debouncedInput],
         queryFn: () => getCountries(filter, debouncedInput),
     });
 
-    const onChangeInputText = e => setInput(e.target.value);
+    const onChangeInputText = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
 
-    const onChangeFilterOption = e => setFilter(e.target.value);
+    const onChangeFilterOption = (e: ChangeEvent<HTMLSelectElement>) =>
+        setFilter(e.target.value as Filter);
 
-    const onChangeSortOption = e => setSort(e.target.value);
+    const onChangeSortOption = (e: ChangeEvent<HTMLSelectElement>) =>
+        setSort(e.target.value as Sort);
 
     const sortedData = sortData(data, sort);
 

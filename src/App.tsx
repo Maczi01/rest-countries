@@ -9,12 +9,10 @@ import { Title } from './components/Title';
 function App() {
     const [view, setView] = useState<'explore' | 'guess'>('guess');
 
-    const onChange = (e: {
-        target: { value: string | ((prevState: 'explore' | 'guess') => 'explore' | 'guess') };
-    }) => {
-        setView(e.target.value);
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value as 'explore' | 'guess'; // Type assertion here
+        setView(newValue);
     };
-    console.log({ view });
 
     return (
         <>

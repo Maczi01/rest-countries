@@ -6,7 +6,6 @@ type ConfettiProps = {
 };
 
 export const Confetti = ({ show }: ConfettiProps) => {
-
     if (!show) return null;
     useEffect(() => {
         let duration = 5 * 1000;
@@ -17,7 +16,7 @@ export const Confetti = ({ show }: ConfettiProps) => {
             return Math.random() * (max - min) + min;
         }
 
-        const interval = setInterval(function () {
+        const interval: NodeJS.Timeout = setInterval(function () {
             let timeLeft = animationEnd - Date.now();
 
             if (timeLeft <= 0) {
@@ -25,6 +24,7 @@ export const Confetti = ({ show }: ConfettiProps) => {
             }
 
             let particleCount = 50 * (timeLeft / duration);
+            // Two confetti calls
             confetti(
                 Object.assign({}, defaults, {
                     particleCount,
@@ -39,8 +39,9 @@ export const Confetti = ({ show }: ConfettiProps) => {
             );
         }, 250);
 
+        // Cleanup on effect end
         return () => clearInterval(interval);
-    }, []);
+    }, [show]);
 
     return <span className="h-24 mx-auto mt-20"> Congrats!</span>;
 };
